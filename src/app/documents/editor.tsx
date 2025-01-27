@@ -3,15 +3,16 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Document from "@tiptap/extension-document";
+import { bulletList } from "@tiptap/pm/schema-list";
 
 const Editor = () => {
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [StarterKit, bulletList],
     content: "<p>Hello World! 🌎️</p>",
     editorProps: {
       attributes: {
         class:
-          "focus:outline-none print:border-0 bg-white border border-black flex flex-col min-h-[1024px] w-[816px] pt-10  pr-14 pb-10 cursor-text",
+          "focus:outline-none print:border-0 bg-white border border-black flex flex-col min-h-[1024px] w-[816px] pt-10  pr-14 pb-10 cursor-text ",
         style: "padding-left: 56px; padding-right: 56px;",
       },
     },
