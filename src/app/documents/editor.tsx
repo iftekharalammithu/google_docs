@@ -12,10 +12,18 @@ import TableRow from "@tiptap/extension-table-row";
 import TableCell from "@tiptap/extension-table-cell";
 import Image from "@tiptap/extension-image";
 
+import ImageResize from "tiptap-extension-resize-image";
+import { useEditorStore } from "@/Store/use-editor-store";
+
 const Editor = () => {
+  const { setEditor } = useEditorStore();
   const editor = useEditor({
+    onCreate({ editor }) {
+      setEditor(editor);
+    },
     extensions: [
       StarterKit,
+      ImageResize,
       Document,
       BulletList,
       TaskList,
