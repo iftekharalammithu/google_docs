@@ -11,10 +11,12 @@ import TableHeader from "@tiptap/extension-table-header";
 import TableRow from "@tiptap/extension-table-row";
 import TableCell from "@tiptap/extension-table-cell";
 import Image from "@tiptap/extension-image";
+import FontFamily from "@tiptap/extension-font-family";
 
 import ImageResize from "tiptap-extension-resize-image";
 import { useEditorStore } from "@/Store/use-editor-store";
 import Underline from "@tiptap/extension-underline";
+import TextStyle from "@tiptap/extension-text-style";
 
 const Editor = () => {
   const { setEditor } = useEditorStore();
@@ -46,8 +48,10 @@ const Editor = () => {
 
     extensions: [
       StarterKit,
+      FontFamily,
       Underline,
       ImageResize,
+      TextStyle,
       Document,
       BulletList,
       TaskList,
