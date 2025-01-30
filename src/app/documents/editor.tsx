@@ -14,6 +14,7 @@ import Image from "@tiptap/extension-image";
 
 import ImageResize from "tiptap-extension-resize-image";
 import { useEditorStore } from "@/Store/use-editor-store";
+import Underline from "@tiptap/extension-underline";
 
 const Editor = () => {
   const { setEditor } = useEditorStore();
@@ -21,8 +22,31 @@ const Editor = () => {
     onCreate({ editor }) {
       setEditor(editor);
     },
+    onDestroy() {
+      setEditor(null);
+    },
+    onUpdate({ editor }) {
+      setEditor(editor);
+    },
+    onSelectionUpdate({ editor }) {
+      setEditor(editor);
+    },
+    onTransaction({ editor }) {
+      setEditor(editor);
+    },
+    onFocus({ editor }) {
+      setEditor(editor);
+    },
+    onBlur({ editor }) {
+      setEditor(editor);
+    },
+    onContentError({ editor }) {
+      setEditor(editor);
+    },
+
     extensions: [
       StarterKit,
+      Underline,
       ImageResize,
       Document,
       BulletList,
@@ -39,6 +63,23 @@ const Editor = () => {
       Image,
     ],
     content: `
+        <table>
+          <tr>
+            <td>Product A</td>
+            <td>$199.99</td>
+            <td>In Stock</td>
+          </tr>
+          <tr>
+            <td>Product B</td>
+            <td>$149.50</td>
+            <td>Low Stock</td>
+          </tr>
+          <tr>
+            <td>Product C</td>
+            <td>$299.99</td>
+            <td>Out of Stock</td>
+          </tr>
+        </table>
         <p>This is a basic example of implementing images. Drag to re-order.</p>
         <img src="https://placehold.co/800x400" />
         <img src="https://placehold.co/800x400/6A00F5/white" />
