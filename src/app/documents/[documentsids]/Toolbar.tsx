@@ -7,7 +7,6 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
-import { Dropdown } from "@tiptap/pm/menu";
 import {
   BoldIcon,
   CheckIcon,
@@ -23,6 +22,7 @@ import {
   Undo2Icon,
 } from "lucide-react";
 import React from "react";
+import { type ColorResult, CirclePicker, SketchPicker } from "react-color";
 
 interface ToolbarButtonprops {
   onclick?: () => void;
@@ -30,19 +30,44 @@ interface ToolbarButtonprops {
   icon: LucideIcon;
 }
 
+const Textcolorbutton = () => {
+  const { editor } = useEditorStore();
+  const value = editor?.getAttributes("textStyle").color || "black";
+  const onchange = (color: ColorResult) => {
+    editor?.chain().focus().setColor(color.hex).run();
+  };
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="h-7 min-w-7 shrink-0 flex items-center justify-center rounded-sm hover:bg-neutral-500/80 px-1.5 text-sm overflow-hidden">
+          <span>A</span>
+          <div
+            className="h-0.5 w-full"
+            style={{ backgroundColor: value }}
+          ></div>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="p-2 ">
+        <CirclePicker color={value} onChange={onchange} />
+        <SketchPicker color={value} onChange={onchange}></SketchPicker>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
 const Heading = () => {
   const { editor } = useEditorStore();
   const heading = [
-    { lable: "Normal Text", value: 0, fontSize: "16px" },
-    { lable: "Heading 1", value: 1, fontSize: "32px" },
-    { lable: "Heading 2", value: 2, fontSize: "24px" },
-    { lable: "Heading 3", value: 3, fontSize: "20px" },
-    { lable: "Heading 4", value: 4, fontSize: "18px" },
+    { label: "Normal Text", value: 0, fontSize: "16px" },
+    { label: "Heading 1", value: 1, fontSize: "32px" },
+    { label: "Heading 2", value: 2, fontSize: "24px" },
+    { label: "Heading 3", value: 3, fontSize: "20px" },
+    { label: "Heading 4", value: 4, fontSize: "18px" },
   ];
 
   const getcurrentheading = () => {
     for (let i = 0; i <= heading.length; i++) {
-      if (editor?.isActive("heading", i)) {
+      if (editor?.isActive("Heading", i)) {
         return `Heading ${i}`;
       }
     }
@@ -60,7 +85,29 @@ const Heading = () => {
           <ChevronDownIcon className="size-4 ml-2 shrink-0" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className=" p-1 flex flex-col gap-y-1"></DropdownMenuContent>
+      <DropdownMenuContent className=" p-1 flex flex-col gap-y-1">
+        {heading.map(({ label, value, fontSize }) => (
+          <button
+            key={value}
+            style={{ fontSize }}
+            className={cn(
+              " flex items-center gap-x-2 px-2 py-1 rounded-sm hover:bg-slate-400/80",
+              (value === 0 && editor?.isActive("Heading", 0)) ||
+                (editor?.isActive("Heading", { level: value }) &&
+                  "bg-slate-400/80")
+            )}
+            onClick={() => {
+              if (value === 0) {
+                editor?.chain().focus().setParagraph().run();
+              } else {
+                editor?.chain().focus().setHeading({ level: value }).run();
+              }
+            }}
+          >
+            {label}
+          </button>
+        ))}
+      </DropdownMenuContent>
     </DropdownMenu>
   );
 };
@@ -260,7 +307,6 @@ const Toolbar = () => {
       ))}
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
       <FontFamily></FontFamily>
-
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
       <Heading />
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
@@ -268,7 +314,8 @@ const Toolbar = () => {
         <ToolbarButton key={item.label} {...item} />
       ))}
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
-
+      <Textcolorbutton />
+      <Separator orientation="vertical" className="h-6 bg-neutral-300" />
       {section[2].map((item) => (
         <ToolbarButton key={item.label} {...item} />
       ))}

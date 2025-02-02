@@ -12,11 +12,12 @@ import TableRow from "@tiptap/extension-table-row";
 import TableCell from "@tiptap/extension-table-cell";
 import Image from "@tiptap/extension-image";
 import FontFamily from "@tiptap/extension-font-family";
-
+import Highlight from "@tiptap/extension-highlight";
 import ImageResize from "tiptap-extension-resize-image";
 import { useEditorStore } from "@/Store/use-editor-store";
 import Underline from "@tiptap/extension-underline";
 import TextStyle from "@tiptap/extension-text-style";
+import { Color } from "@tiptap/extension-color";
 
 const Editor = () => {
   const { setEditor } = useEditorStore();
@@ -65,6 +66,8 @@ const Editor = () => {
       TableHeader,
       TableCell,
       Image,
+      Color,
+      Highlight.configure({ multicolor: true }),
     ],
     content: `
         <table>
