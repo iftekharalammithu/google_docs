@@ -1,5 +1,7 @@
+" use client";
 import React from "react";
 import Navbar from "./Navbar";
+
 interface DocumentsidsProps {
   params: Promise<{ documentsids: string }>;
 }
